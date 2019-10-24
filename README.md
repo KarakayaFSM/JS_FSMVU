@@ -8,7 +8,7 @@
   
    CW3 [sumOfARange](./sumOfARange.png)
   > Generates an array of integers in increasing/decreasing order `Loops`
-  > and finds the sum of the generated array 
+  and finds the sum of the generated array 
 
    CW2.1 [CelciusToFahrenheit](./celciusToFahrenheit.html)
   > Celcius to Fahrenheit converter `Understanding Events`
