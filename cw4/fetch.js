@@ -32,13 +32,13 @@ function prepareCourses() {
 }
 
 function query(course_name) {
-   filterResult = courses.filter(course => course.derskod == course_name)
-    if(filterResult[0]){
-        data.innerText = filterResult[0];
-    } else {
-        data.innerText = "Böyle bir kurs bulunamadı"
-    }
-    //console.log(courses.filter(course => course.derskod == course_name))
+  filterResult = courses.filter(course => course.derskod == course_name);
+  if (filterResult[0]) {
+    data.innerText = "\n"+filterResult[0];
+  } else {
+    data.innerText = "\nBöyle bir kurs bulunamadı";
+  }
+  //console.log(courses.filter(course => course.derskod == course_name))
 }
 
 function printCourses(courses) {
@@ -47,3 +47,8 @@ function printCourses(courses) {
   }
 }
 
+document.onreadystatechange = () => {
+  if (document.readyState === 'complete') {
+    sample.innerText = prepareCourses.toString();
+  }
+};
