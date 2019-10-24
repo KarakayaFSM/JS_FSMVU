@@ -6,7 +6,8 @@
    CW4 [QueryDataWithFetch&Promise](./cw4/cw4.md)
   > Finds the relevant information about an exam by course name. `fetch & promise`
   
-   CW3 [sumOfARange](./sumOfARange.png)
+   CW3 [sumOfARange.js screenshot](./sumOfARange.png)
+      CW3 [sumOfARange.js](./sumOfARange.js)
   > Generates an array of integers in asc./desc. order and finds sum of them. `Loops`
 
    CW2.1 [CelciusToFahrenheit](./celciusToFahrenheit.html)
