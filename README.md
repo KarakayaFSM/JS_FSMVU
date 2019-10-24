@@ -7,4 +7,4 @@ A repository for JavaScript files in school projects
 
 [CW1-increment](./abc.html)
 
-[CW4-query](./cw4)
+[CW4-query](./cw4/cw4.MD)
