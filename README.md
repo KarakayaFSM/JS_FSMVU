@@ -7,4 +7,4 @@ A repository for JavaScript files in school projects
 
 [CW1-increment](./abc.html)
 
-[CW4-query](https://github.com/KarakayaFSM/JS_FSMVU/tree/master/cw4)
+[CW4-query](./cw4/)
