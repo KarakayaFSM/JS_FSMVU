@@ -7,6 +7,7 @@
   > Finds the relevant information about an exam by course name. `fetch & promise`
   
    CW3 [sumOfARange.js screenshot](./sumOfARange.png)
+   <br>
       CW3 [sumOfARange.js](./sumOfARange.js)
   > Generates an array of integers in asc./desc. order and finds sum of them. `Loops`
 
