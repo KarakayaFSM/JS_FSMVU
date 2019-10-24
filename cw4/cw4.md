@@ -1,4 +1,4 @@
-[fetch.js](./fetch.js)
+fetch.js file [fetch.js](./fetch.js)
 
-[fetch.html](./fetch.html)
+fetch html file [fetch.html](./fetch.html)
  
