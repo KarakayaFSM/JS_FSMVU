@@ -3,7 +3,7 @@
 
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
-   CW4 [query](./cw4/cw4.MD)
+   CW4 [QueryDataWithFetch&Promise](./cw4/cw4.MD)
   > Finds the relevant information about an exam by course name (fetch & promise).
   
    CW2.1 [CelciusToFahrenheit](./celciusToFahrenheit.html)
