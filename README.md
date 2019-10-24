@@ -10,9 +10,9 @@
   > Celcius to Fahrenheit converter `Understanding Events`
   
    CW2 [Counting](./Counting.html)
-  > A basic counter (`Understanding basics`)
+  > A basic counter `Understanding basics`
   
    CW1 [increment](./abc.html)
-  > A hello, world like first project in html (`hello, world`)
+  > A hello, world like first project in html `hello, world`
   
 
