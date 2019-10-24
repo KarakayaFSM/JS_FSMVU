@@ -7,8 +7,7 @@
   > Finds the relevant information about an exam by course name. `fetch & promise`
   
    CW3 [sumOfARange](./sumOfARange.png)
-  > Generates an array of integers in increasing/decreasing order `Loops`
-  > and finds the sum of the generated array 
+  > Generates an array of integers in asc./desc. order and finds sum of them. `Loops`
 
    CW2.1 [CelciusToFahrenheit](./celciusToFahrenheit.html)
   > Celcius to Fahrenheit converter `Understanding Events`
