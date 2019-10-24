@@ -1,7 +1,7 @@
 # JS_FSMVU
 <h3>A repository for JavaScript files in school projects</h3>
 
-<a href="https://karakayafsm.github.io/JS_FSMVU/">Back to the main page</a>
+<a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
   * CW4 [query](./cw4/cw4.MD)  
   
