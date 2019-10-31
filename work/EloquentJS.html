@@ -55,6 +55,10 @@ class Point3D extends Point {
 class CW5 extends Menu {
     constructor(){
         super();
+        this.Course = new Course("Advanced JS",1,2,"HB131")
+        this.stu = new Student(1621221022,"Salih Karakaya",4,"Advanced Js")
+        this.point = new Point(1,2)
+        this.point3d = new Point3D(1,2,3)
     }
 }
 
@@ -88,9 +92,9 @@ class Student {
 var a, b, c, code;  //global variables
 function init() {
     
-    display(new Course("Advanced JS",1,2,"HB131"));
-    display(new Student(1621221022,"Salih Karakaya",4,"Advanced Js"));
-    display(new Point(1,2));
+    display();
+    display();
+    display();
     display(new Point3D(1,2,3));
     display(new CW5());
 }
