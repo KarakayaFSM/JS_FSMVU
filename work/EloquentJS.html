@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="https://maeyler.github.io/JS/sss/inspector.css" 
+          rel="stylesheet" media="all">
+    <link rel="icon" href="../images/icon192.png">
+    <script src="https://maeyler.github.io/JS/sss/inspector.js"></script>
+    <script src="c4_data.js"></script>
+    <script src="c6_object.js"></script>
+    <script src="../exam/Quiz.js"></script>
+    <script src="Async.js"></script>
+
+    <title>Eloquent JavaScript </title>
+</head>
+
+<body>
+<p><b id=docName></b> &nbsp;
+<a href="https://maeyler.github.io/JS/sss/">Read me</a> &nbsp;
+<a href="https://maeyler.github.io/JS/sss/Turkish">Turkish</a>
+</p>
+<div id=sss></div>
+<pre id=disp1></pre>
+<img id=disp2 />
+
+<script>
+
+class Point {
+
+constructor(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+toString() {
+    return "Point"
+}
+
+}
+
+class Point3D extends Point {
+    constructor(x, y, z) {
+        super(x, y);
+        this.z = z;
+    }
+   
+    toString() {
+    return "Point 3D"
+    
+    }
+
+}
+
+class CW5 extends Menu {
+    constructor(){
+        super();
+    }
+}
+
+class Course {
+  constructor(course_name, hour, date, classes) {
+    this.course_name = course_name;
+    this.hour = hour;
+    this.date = date;
+    this.classes = classes;
+  }
+
+  toString() {
+    return "Course"
+  }
+}
+
+class Student {
+  constructor(student_id, name, grade, courses) {
+    this.student_id = student_id;
+    this.name = name;
+    this.grade = grade;
+    this.courses = courses;
+  }
+
+  toString() {
+    return "Student";
+  }
+}
+
+"use strict";
+var a, b, c, code;  //global variables
+function init() {
+    
+    display(new Course("Advanced JS",1,2,"HB131"));
+    display(new Student(1621221022,"Salih Karakaya",4,"Advanced Js"));
+    display(new Point(1,2));
+    display(new Point3D(1,2,3));
+    display(new CW5());
+}
+    docName.innerText = "Inspector "+VERSION;
+    try {
+        inspect(sss, init); //makes the table
+        inp.value = "new Date()";
+    } catch(e) {
+        reportError(e);
+    }
+</script>
+
+<p><a href="https://karakayafsm.github.io/JS_FSMVU/pieChart.png">CW1</a></p>
+<p><a href="https://karakayafsm.github.io/JS_FSMVU/Counting.html">CW2</a></p>
+<p><a href="https://karakayafsm.github.io/JS_FSMVU/celciusToFahrenheit.html">CW2.1</a></p>
+<p><a href="https://karakayafsm.github.io/JS_FSMVU/SumOfARange.js">CW3</a></p>
+<p><a href="https://karakayafsm.github.io/JS_FSMVU/cw4/cw4.html">CW4</a></p>
+</body>
+</html>
