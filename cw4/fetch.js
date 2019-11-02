@@ -13,8 +13,6 @@ class Course {
   }
 }
 
-prepareCourses();
-
 function prepareCourses() {
   fetch("https://maeyler.github.io/JS/data/Courses.txt")
     .then(data =>
@@ -25,6 +23,7 @@ function prepareCourses() {
           let course = new Course(props[0], props[1], props[2], props.slice(3));
           courses.push(course);
         }
+        document.dispatchEvent(textLoaded);
         //printCourses(courses)
       })
     )
@@ -47,8 +46,16 @@ function printCourses(courses) {
   }
 }
 
+window.onload = (e) => {
+  prepareCourses();
+}
+
 document.onreadystatechange = () => {
   if (document.readyState === 'complete') {
     sample.innerText = prepareCourses.toString();
   }
 };
+
+let textLoaded = new Event('text-loaded');
+//query(course_input.value)
+document.addEventListener('text-loaded', ()=> query(course_input.value), false);
