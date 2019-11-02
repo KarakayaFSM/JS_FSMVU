@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width">
     <link href="https://maeyler.github.io/JS/sss/inspector.css" 
           rel="stylesheet" media="all">
-    <link rel="icon" href="../images/icon192.png">
+    <link rel="icon" href="./images/icon192.png">
     <script src="https://maeyler.github.io/JS/sss/inspector.js"></script>
     <script src="c4_data.js"></script>
-    <script src="c6_object.js"></script>
-    <script src="../exam/Quiz.js"></script>
+    <script src="c6_objects.js"></script>
+    <script src="./exam/Quiz.js"></script>
     <script src="Async.js"></script>
 
     <title>Eloquent JavaScript </title>
@@ -92,9 +92,11 @@ class Student {
 var a, b, c, code;  //global variables
 function init() {
     
-    display();
-    display();
-    display();
+    display(new Chap4());
+    display(new Chap6());
+    display(new Quiz());
+    MENU = new Async(); //global
+    display(MENU); 
     display(new Point3D(1,2,3));
     display(new CW5());
 }
@@ -107,10 +109,49 @@ function init() {
     }
 </script>
 
-<p><a href="https://karakayafsm.github.io/JS_FSMVU/pieChart.png">CW1</a></p>
-<p><a href="https://karakayafsm.github.io/JS_FSMVU/Counting.html">CW2</a></p>
-<p><a href="https://karakayafsm.github.io/JS_FSMVU/celciusToFahrenheit.html">CW2.1</a></p>
-<p><a href="https://karakayafsm.github.io/JS_FSMVU/SumOfARange.js">CW3</a></p>
-<p><a href="https://karakayafsm.github.io/JS_FSMVU/cw4/cw4.html">CW4</a></p>
+<style>
+  .style{
+  -webkit-font-smoothing: antialiased;
+  font-size: 1.2rem;
+  background-color: #333;
+  color: #fff;
+  font-weight: 400;
+  line-height: 1.25;
+  display: inline-block;
+  padding: 0 4px 0 40px;
+  }
+  </style>
+
+<p>CW4 &nbsp; <a href="https://karakayafsm.github.io/JS_FSMVU/cw4/fetch.html">QueryDataWithFetch&amp;Promise</a></p>
+
+<blockquote>
+  <p>Finds the relevant information about an exam by course name. <code class="style">fetch - promise</code></p>
+</blockquote>
+
+<p>CW3 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/sumOfARange.png">sumOfARange.js screenshot</a>
+   <br>
+      CW3 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/SumOfARange.js">sumOfARange.js</a></p>
+
+<blockquote>
+  <p>Generates an array of integers in asc./desc. order and finds sum of them. <code class="style">Loops</code></p>
+</blockquote>
+
+<p>CW2.1 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/celciusToFahrenheit.html">CelciusToFahrenheit</a></p>
+
+<blockquote>
+  <p>Celcius to Fahrenheit converter <code class="style">Understanding Events</code></p>
+</blockquote>
+
+<p>CW2 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/Counting.html">Counting</a></p>
+
+<blockquote>
+  <p>A basic counter <code class="style">Understanding basics</code></p>
+</blockquote>
+
+<p>CW1 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/pieChart.png">PieChart</a></p>
+
+<blockquote>
+  <p>Translating the site with DevTools <code class="style">Learning Dev-Tools</code></p>
+</blockquote>
 </body>
 </html>
