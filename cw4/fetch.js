@@ -9,7 +9,7 @@ class Course {
   }
 
   toString() {
-    return `derskod: ${this.derskod}\n tarih: ${this.tarih}\n saat: ${this.saat}\n sınıflar: ${this.sınıflar}`;
+    return `derskod: ${this.derskod}\n saat: ${this.tarih}\n tarih: ${this.saat}\n sınıflar: ${this.sınıflar}`;
   }
 }
 
