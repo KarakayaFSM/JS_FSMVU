@@ -3,6 +3,10 @@
 
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
+   CW5 [Customizing Inspector](./work/EloquentJS.html)
+   
+  > Adds Sample data to inspector. `Understanding Inspector`
+
    CW4 [QueryDataWithFetch&Promise](./cw4/fetch.html)
   > Finds the relevant information about an exam by course name. `fetch & promise`
   
