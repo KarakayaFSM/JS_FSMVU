@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CheckFileEquality</title>
+  </head>
+
+  <style>
+    .style {
+      -webkit-font-smoothing: antialiased;
+      font-size: 1.2rem;
+      background-color: #333;
+      color: #fff;
+      font-weight: 400;
+      line-height: 1.25;
+      display: inline-block;
+      padding: 0 4px 0 40px;
+    }
+  </style>
+
+  <body>
+    <p>
+      Remote File: https://maeyler.github.io/JS/data/Courses.txt
+      <!-- <input id="remoteURL" type="text" onchange="readRemoteFileAsText(value)" /> -->
+    </p>
+
+    <p id="remoteFileName"></p>
+
+    <input type="file" multiple id="fileInput" onchange="processFiles(files)" />
+    <div id="result"></div>
+    <pre>Sample Code:</pre>
+
+    <p>CW5 &nbsp;<a href="./work/EloquentJS.html">Customizing Inspector</a></p>
+
+    <blockquote>
+      <p>
+        Adds Sample data to inspector.
+        <code class="style">Understanding Inspector</code>
+      </p>
+    </blockquote>
+
+    <p>
+      CW4 &nbsp;
+      <a href="https://karakayafsm.github.io/JS_FSMVU/cw4/fetch.html"
+        >QueryDataWithFetch&amp;Promise</a
+      >
+    </p>
+
+    <blockquote>
+      <p>
+        Finds the relevant information about an exam by course name.
+        <code class="style">fetch - promise</code>
+      </p>
+    </blockquote>
+
+    <p>
+      CW3 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/sumOfARange.png"
+        >sumOfARange.js screenshot</a
+      >
+      <br />
+      CW3 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/SumOfARange.js"
+        >sumOfARange.js</a
+      >
+    </p>
+
+    <blockquote>
+      <p>
+        Generates an array of integers in asc./desc. order and finds sum of
+        them. <code class="style">Loops</code>
+      </p>
+    </blockquote>
+
+    <p>
+      CW2.1 &nbsp;<a
+        href="https://karakayafsm.github.io/JS_FSMVU/celciusToFahrenheit.html"
+        >CelciusToFahrenheit</a
+      >
+    </p>
+
+    <blockquote>
+      <p>
+        Celcius to Fahrenheit converter
+        <code class="style">Understanding Events</code>
+      </p>
+    </blockquote>
+
+    <p>
+      CW2 &nbsp;<a href="https://karakayafsm.github.io/JS_FSMVU/Counting.html"
+        >Counting</a
+      >
+    </p>
+
+    <blockquote>
+      <p>A basic counter <code class="style">Understanding basics</code></p>
+    </blockquote>
+
+    <script>
+
+      const url = 'https://maeyler.github.io/JS/data/Courses.txt';
+
+      let remoteText;
+
+      const fileName = getFileName(url);
+      readRemoteFileAsText(url);
+      
+
+      function getFileName(url) {
+        return url.substring(url.lastIndexOf('/')+1);
+      }
+
+      async function readRemoteFileAsText(url) {
+        const res = await fetch(url);
+        const text = await res.text();
+        remoteText = text;
+        showRemoteFileName(fileName);
+      }
+
+      function showRemoteFileName(fileName) {
+        remoteFileName.innerText = fileName + " downloaded";
+      }
+
+      function PrintResult(message) {
+        result.innerText += "\n" + message;
+      }
+
+      function clearPreviousOutput() {
+        result.innerText = "";
+      }
+
+      async function processFiles(files) {
+
+        clearPreviousOutput();
+
+        for (let i = 0; i < files.length; i++) {
+        
+        const r2 = new FileReader();
+        
+        r2.onload = (e) => {
+        let text = e.target.result;
+        
+        text == remoteText ? 
+        (PrintResult("Remote text is equal to: " + files[i].name))
+        :
+        (PrintResult("Remote text is not equal to: " + files[i].name));
+        
+        };
+        r2.readAsText(files[i]);
+        }
+        PrintResult(files.length + " file(s) checked")
+      }
+    </script>
+  </body>
+</html>
