@@ -3,12 +3,11 @@
 
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
-<pre>
    CW6 [Remote-Local File Comparison](./CW6_checkEquality.html)
    
   > Compares selected remote file `Understanding File API`
-    against a list of local files
-</pre>
+    <br> against a list of local files
+
    
 
    CW5 [Customizing Inspector](./work/EloquentJS.html)
