@@ -5,7 +5,8 @@
 
    CW6 [Remote-Local File Comparison](./CW6_checkEquality.html)
    
-  > Adds Sample data to inspector. `Understanding Inspector`
+  > Compares selected remote file `Understanding File API`
+  against a list of local files
 
    CW5 [Customizing Inspector](./work/EloquentJS.html)
    
