@@ -29,7 +29,9 @@
 
     <input type="file" multiple id="fileInput" onchange="processFiles(files)" />
     <div id="result"></div>
-    <pre>Sample Code:</pre>
+    <pre>Sample Code:
+      <div id="sample_code"></div>
+    </pre>
 
     <p>CW5 &nbsp;<a href="./work/EloquentJS.html">Customizing Inspector</a></p>
 
@@ -149,6 +151,11 @@
         }
         PrintResult(files.length + " file(s) checked")
       }
+
+    window.onload = () => {
+      sample_code.innerText = processFiles.toString();
+    }    
+
     </script>
   </body>
 </html>
