@@ -3,6 +3,10 @@
 
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
+   CW6 [Remote-Local File Comparison](./CW6_checkEquality.html)
+   
+  > Adds Sample data to inspector. `Understanding Inspector`
+
    CW5 [Customizing Inspector](./work/EloquentJS.html)
    
   > Adds Sample data to inspector. `Understanding Inspector`
@@ -27,3 +31,4 @@
   ## HOMEWORKS
   
   HW1
+  HW2
