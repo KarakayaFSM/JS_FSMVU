@@ -5,7 +5,7 @@
 
    CW6 [Remote-Local File Comparison](./CW6_checkEquality.html)
    
-  > Compares selected remote file `Understanding File API`
+  > Compares selected remote file &nbsp; `Understanding File API`
     <br> against a list of local files
 
    
