@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="Database.js"></script>
+    <title>Title set by setHourMin()</title>
+
+  <style>
+    body { max-width: 450px; }
+    #clock {
+        font-size: 48px;
+        background-color: blue;
+        color: white;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<h2>Time Measurement</h2>
+
+<h3>Simple Clock</h3>
+<div id=clock></div>
+
+<h3>Set Intersection</h3>
+<button onClick='timing(searchArray)'>Method 1</button>
+<button onClick='timing(searchMap)'>Method 2</button>
+<p id=out>Question 3 in 
+<a href="https://maeyler.github.io/BLM305-2018/exam/Midterm%20solution.pdf">
+2018 exam</a>
+</p>
+
+<hr />
+<h3>Sample code</h3>
+<pre id=sample></pre>
+<hr />
+
+<script>
+"use strict";
+// Make a large Set
+const url = "https://maeyler.github.io/JS/data/"
+const student_ids = []     // Student objects
+const stu_map = new Map();
+
+function readData(file) {
+    console.log("readData: "+file)
+    let complete_url = url+file;
+    console.log(complete_url);
+    fetch(complete_url)
+        .then(r => r.text())
+        .then(text => addStudents(text))
+}
+
+function parseStudent(line) {
+    let [id, name, gpa, ...L] = line.split('\t')
+    let std = new Student(id, name, gpa)
+    std.courses = L; 
+    return std
+}
+
+function addStudents(txt) {
+    let a = txt.split('\n')
+    for (let s of a) {
+      let std = parseStudent(s);
+      student_ids.push(std.id);
+      stu_map.set(std.id, std);
+    }
+}
+
+function searchArray() {
+    //let id = Math.floor(Math.random() * 10000);
+    let id = Math.floor(Math.random() * 10000);
+    let found_count = 0;
+
+    for (let i = 0; i < 10000; i++) {
+        if(student_ids.includes(id)) found_count++;
+        id+=10;
+    }
+    console.log(" same elements (array search) : "+found_count);
+    return found_count;
+}
+
+function searchMap() {
+    let id = Math.floor(Math.random() * 10000);
+    let found_count = 0;
+    for (let i = 0; i < 10000; i++) {
+        if(stu_map.has(id)) found_count++;
+        id+=10;
+    }
+    console.log(" same elements (map search) : "+found_count);
+    return found_count;
+}
+
+function timing(f) {
+    let t = performance.now() //more accurate than Date.now()
+    let x = f()   //calculate intersection by itself
+    t = performance.now() - t
+    let s = f.name+": "+t.toPrecision(3)+" msec "
+    out.innerHTML += "<br>"+s + "<br>"+"same elements: " + x; console.log(s)
+
+}
+    //title.innerText = document.title;
+    sample.innerText = searchMap + "\n" + searchArray;
+    readData("Students.txt")
+
+</script>
+
+</body>
+</html>
