@@ -9,7 +9,7 @@
   > Listing information about a github user &nbsp; `Using Extenal API's`
     <br> using Github API.
 
-   CW8.1 [Making A PWA](./cw8/index.html)
+   CW8.1 [Making A PWA](./index.html)
    
   > Making PWA of this repo's homepage. &nbsp; `Understanding PWA's`
     <br> 
