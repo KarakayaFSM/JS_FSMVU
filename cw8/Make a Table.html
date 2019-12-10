@@ -41,15 +41,6 @@
 
 <p id="out" style="font-size:small">686 chars</p>
 
-<form oninput="tableFromInput()">
-  Rows: 
-  <input type="number" id="rows" style="width:40px" value="7">
-  Columns: 
-  <input type="number" id="cols" style="width:40px" value="8">
-  <br><br>
-  <input type="reset">
-  <input type="button" value="Make Table" onclick="tableFromInput()">
-</form>
 </center>
 
 <hr>
@@ -109,10 +100,7 @@ function tableFromInput(list) {
 }
 
 fetch("data.txt").then(txt => txt.text().then(txt => tableFromInput(toList(txt))));
-
-    //title.innerText = document.title;
-    //sample.innerText = makeRows.toString();
-    //makeRows(3, 5);
+    
 </script>
 
 
