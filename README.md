@@ -4,23 +4,23 @@
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
 
-   CW9 [Using an External API](./CW9/GitHub%20Users.html)
+   CW9 [Using an External API](./cw9/GitHub%20Users.html)
    
   > Listing information about a github user &nbsp; `Using Extenal API's`
     <br> using Github API.
 
-   CW8.1 [Making A PWA](./CW8/index.html)
+   CW8.1 [Making A PWA](./cw8/index.html)
    
   > Making PWA of this repo's homepage. &nbsp; `Understanding PWA's`
     <br> 
 
-   CW8 [Make A Table](./CW8/Make%20a%20Table.html)
+   CW8 [Make A Table](./cw8/Make%20a%20Table.html)
    
   > A table containig information &nbsp; `Making a table using tableMaker`
     <br> about planets.
 
 
-   CW7 [Timing](./CW7/Timing.html)
+   CW7 [Timing](./cw7/Timing.html)
    
   > Searches the given key in an array &nbsp; `Comparing search speed of Map and Array`
     <br> and a map of 10.000 records.
