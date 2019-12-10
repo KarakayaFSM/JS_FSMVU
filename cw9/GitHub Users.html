@@ -48,10 +48,11 @@ function listRepos(b) {
 }
 
 function fillList(b) {
+    repos.innerHTML = "";
     if(b.length) {
       console.log(b)
       for (let repo in b) {
-      repos.innerHTML+=`<li>${b[repo].name} has </li>` 
+      repos.innerHTML+=`<li>${b[repo].name} </li>` 
       }  
     }
 }
