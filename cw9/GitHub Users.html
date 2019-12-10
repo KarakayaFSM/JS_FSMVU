@@ -37,7 +37,6 @@ const NL = "\n", BR = "<BR>",
     URL = "https://api.github.com/users/"
 function error(t) {
     out.style.color = 'red'
-    //out.innerText = t; console.log(t)
 }
 function listRepos(b) {
     if (b.length){
@@ -50,7 +49,6 @@ function listRepos(b) {
 function fillList(b) {
     repos.innerHTML = "";
     if(b.length) {
-      console.log(b)
       for (let repo in b) {
       repos.innerHTML+=`<li>${b[repo].name} </li>` 
       }  
@@ -74,7 +72,6 @@ function userData(u) {
     //add name and location
     let s = (u.name? u.name : u.login)
     if (u.location) s += ", "+u.location
-    console.log(s);
     out.innerHTML += s+BR; 
     //add link to GitHub 
     let h = "github.com/"+u.login
