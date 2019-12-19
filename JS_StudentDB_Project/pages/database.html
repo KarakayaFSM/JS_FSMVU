@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student DB</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../scripts/database.js"></script>
+</head>
+<body>
+    <div class="root">
+            <p>
+                <label for="student_id">Student ID</label> &nbsp
+                <input id="student_id" type="text" placeholder="Enter Student ID">
+                <button onclick="getCourses()" class="myButton">Get Courses</button>
+            </p>
+            <p>
+                <label for="course_name">Course Name</label> &nbsp
+                <input id="course_name" type="text" placeholder="Enter Course Name">
+                <button onclick="getStudentsTaking()" class="myButton">Get Students</button>
+            </p>
+            <p>
+                <label for="exam_room">Exam Room</label> &nbsp
+                <input id="exam_room" type="text" placeholder="Get courses for room">
+                <button onclick="getCoursesForRoom()" class="myButton">Get Courses</button>
+            </p>
+            <p>
+                <label for="courses_total">Room Code</label> &nbsp
+                <input id="courses_total" type="text" placeholder="Enter Room Code">
+                <button onclick="getCourseCount()" class="myButton">Get Number of courses</button>
+            </p>
+            <p>
+                <label for="student_GPA">Student GPA</label> &nbsp
+                <input id="student_GPA" type="text" placeholder="Enter GPA">
+                <button class="myButton" onclick="getBelowGPA()">Get Students Below</button>
+                <button class="myButton" onclick="getAboveGPA()">Get Students Above</button>
+            </p>
+            <p>
+                <label for="exam_schedule">Exam Schedule for Student</label> &nbsp
+                <input id="exam_schedule" type="text" placeholder="Enter Student ID">
+                <button class="myButton" onclick="getExamSchedule()">Get Student's Exam Schedule</button>
+            </p>
+            <p>
+                <button class="myButton" onClick="Random()">Random Student</button>     
+            </p>
+            <div id="results"></div>
+    </div>
+</body>
+</html>
