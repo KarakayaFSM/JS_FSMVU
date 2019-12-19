@@ -62,5 +62,8 @@
 
   ## HOMEWORKS
   
-  HW1
-  HW2
+  HW1 [MakeATable](https://karakayafsm.github.io/JS_FSMVU/MakeaTable.html)
+  > Making Poisson table. &nbsp; `Understanding Tables`
+   
+  HW2 [StudentDatabase](https://karakayafsm.github.io/JS_FSMVU/JS_StudentDB_Project/pages/database.html)
+  > Querying Student database. &nbsp; `Understanding Fetch&Promises`
