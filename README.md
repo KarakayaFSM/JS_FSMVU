@@ -70,6 +70,3 @@
   
   HW3 [JS Animations](https://karakayafsm.github.io/JS_FSMVU/animations.html)
   > Some examples about JS animations. &nbsp; `Understanding Animations`
-  
-  
-  
