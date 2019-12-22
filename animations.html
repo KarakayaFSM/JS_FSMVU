@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      #dot {
+        position: absolute;
+        left: 130px;
+        color: blue;
+        font-size: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="1" onclick="">1</button>
+    <button id="2">2</button>
+    <button id="3">3</button>
+
+    <span id="dot">.</span>
+
+    <pre>
+        <button onclick="start_fade_animation()">Start Fade Animation</button>
+        <button onclick="start_rotate_animation()">Start Rotate Animation</button>
+        <button onclick="change_color()">Change Random Color</button>
+        <button onclick="animate_dot()">Animate Dot</button>
+</pre>
+  </body>
+  <script>
+
+    "use strict";
+    const r0 = "rotate(0)",
+      x0 = "translateX(0)",
+      t2 = { transform: [r0, "rotate(180deg)", r0, "rotate(-180deg)", r0] },
+      t3 = { background: ["yellow", "cyan", "magenta", "yellow"] },
+      t4 = { fontSize: ["100%", "150%", "200%", "100%", "80%","50%", "100%"] },
+      t5 = {color:["green", "cyan", "magenta", "green"]};
+
+    let button_count = 3;
+
+    function animate_dot() {
+        document.getElementById("dot").animate(t2, 2000);
+        document.getElementById("dot").animate(t3, 2000);
+        document.getElementById("dot").animate(t5, 2000);
+        //document.getElementById("dot").animate(t4, 2000);
+      }
+
+    function change_color() {
+      let id = Math.floor(Math.random() * 3);
+      console.log(id);
+      document.getElementById(id == 0 ? 1 : id).animate(t5, 2000);
+      document.getElementById(id == 0 ? 1 : id).animate(t4, 2000);
+    }
+
+    function start_fade_animation() {
+      for (let i = 1; i <= button_count; i++) {
+        document.getElementById(i).animate(
+          [
+            { opacity: 0, color: "#fff" },
+            { opacity: 1, color: "#000" }
+          ],5000
+        );
+      }
+    }
+
+    function start_rotate_animation() {
+      for (let i = 1; i <= button_count; i++) {
+        document
+          .getElementById(i)
+          .animate(
+            [
+              { transform: "translateX(0px)" },
+              { transform: "translateX(300px)" },
+              { transform: "translateY(300px)" },
+              { transform: "translateX(0px)" },
+              { transform: "translateY(0px)" }
+            ],
+            {
+              duration: 3000,
+            }
+          );
+      }
+    }
+  </script>
+</html>
