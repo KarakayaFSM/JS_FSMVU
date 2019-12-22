@@ -67,3 +67,9 @@
    
   HW2 [StudentDatabase](https://karakayafsm.github.io/JS_FSMVU/JS_StudentDB_Project/pages/database.html)
   > Querying Student database. &nbsp; `Understanding Fetch&Promises`
+  
+  HW3 [JS Animations](https://karakayafsm.github.io/JS_FSMVU/animations.html)
+  > Some examples about JS animations. &nbsp; `Understanding Animations`
+  
+  
+  
