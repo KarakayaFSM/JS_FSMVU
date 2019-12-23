@@ -6,6 +6,8 @@
  ## FINAL PROJECT
    Email Client [Using Gmail API](https://karakayafsm.github.io/JS_FSMVU/email.html)
 
+## CLASS WORK
+
    CW9 [Using an External API](./cw9/GitHub%20Users.html)
    
   > Listing information about a github user &nbsp; `Using Extenal API's`
