@@ -3,6 +3,8 @@
 
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
+ ## FINAL PROJECT
+   Email Client [Using Gmail API](https://karakayafsm.github.io/JS_FSMVU/email.html)
 
    CW9 [Using an External API](./cw9/GitHub%20Users.html)
    
