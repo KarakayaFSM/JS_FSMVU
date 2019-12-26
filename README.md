@@ -4,7 +4,7 @@
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
 
  ## FINAL PROJECT
-  Email Client Using Gmail API [Email Client](https://karakayafsm.github.io/JS_FSMVU/email.html)
+  Email Client Using Gmail API [Email Client](https://karakayafsm.github.io/EmailApp/email.html)
 
 ## CLASS WORK
 
