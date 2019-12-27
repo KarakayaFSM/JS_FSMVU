@@ -19,17 +19,17 @@
 }
 
 .myButton:hover {
-    /* mouse butonun üzerinde gelince renk değiştir */
+    /* mouse butonun Ã¼zerinde gelince renk deÄŸiÅŸtir */
 	background-color:black;
 }
 
 .myButton:active { 
-    /* butona tıklandığında olacak olayları düzenler.
-    Butona tıklandığında aşağı gitmesi 'top' alanında yapılan değişiklik ile oluyor */
+    /* butona tÄ±klandÄ±ÄŸÄ±nda olacak olaylarÄ± dÃ¼zenler.
+    Butona tÄ±klandÄ±ÄŸÄ±nda aÅŸaÄŸÄ± gitmesi 'top' alanÄ±nda yapÄ±lan deÄŸiÅŸiklik ile oluyor */
 	position:relative;
     top:2px; 
-    /* kendisini içeren elemanın üst köşesine olan uzaklık .
-    Butona tıklandığında 2px aşağı in*/
+    /* kendisini iÃ§eren elemanÄ±n Ã¼st kÃ¶ÅŸesine olan uzaklÄ±k .
+    Butona tÄ±klandÄ±ÄŸÄ±nda 2px aÅŸaÄŸÄ± in*/
 }
 
 a {
@@ -57,24 +57,25 @@ a {
 
   .close {
     cursor: pointer;
-    position: absolute;
     /*top: 50%;*/
     right: 0%;
-    padding: 12px 16px;
+    padding: 8px;
     transform: translate(0%, -50%);
-    /* x işaretini mevcut alanın yarı genişliğince yukarı çıkart */
+    /* x iÅŸaretini mevcut alanÄ±n yarÄ± geniÅŸliÄŸince yukarÄ± Ã§Ä±kart */
   }
 
   .close:hover {
     background-color: red;
   }
 
+#sendScreen {
+  bottom: 0;
+  right: 0;
+}
+
   table {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    max-width: 500px;
-    height: 300px;
+    max-width: 600px;
+    height: 200px;
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
