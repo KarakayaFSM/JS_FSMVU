@@ -1,10 +1,11 @@
 # JS_FSMVU
+
+## FINAL PROJECT
+  Email Client Using Gmail API [Email Client](https://karakayafsm.github.io/EmailApp/email.html)
+
 <h3>A repository for JavaScript files in school projects</h3>
 
 <a href="https://karakayafsm.github.io/JS_FSMVU/">See below projects in action 🚀 </a>
-
- ## FINAL PROJECT
-  Email Client Using Gmail API [Email Client](https://karakayafsm.github.io/EmailApp/email.html)
 
 ## CLASS WORK
 
