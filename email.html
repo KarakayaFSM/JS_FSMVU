@@ -1,29 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Gmail API Quickstart</title>
+    <title>FSMail</title>
     <meta charset="utf-8" />
   </head>
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    td,
-    th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
   <body>
-    <p>Gmail API Quickstart</p>
+    <p>FSMail</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" style="display: none;">Authorize</button>
@@ -31,13 +14,52 @@
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
+    <h5>
+      Template of Project Code:
+      <a href="https://developers.google.com/gmail/api/quickstart/js"
+        >Gmail API QuickStart</a
+      >
+    </h5>
+
+    <div class="table_div" style="overflow-x:auto" hidden>
+      <table>
+        <tr>
+          <th>Yeni Mesaj</th>
+          <td>
+            <div id="button_div">
+              <ul>
+                <li><span class="close">x</span></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <textarea id="alici_id" rows="1" placeholder="Alıcı"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td><textarea rows="1" placeholder="Konu"></textarea></td>
+        </tr>
+        <tr>
+          <td><textarea id="mailbox" cols="30" rows="10"></textarea></td>
+        </tr>
+        <tr>
+          <td><button class="myButton">Gönder</button></td>
+        </tr>
+      </table>
+    </div>
+
     <script>
       "use-strict";
 
       let sender_subject = new Map();
 
       // Client ID and API key from the Developer Console
-      
+      let CLIENT_ID =
+        "547985227402-2r4oviu2u56cqer4r7qvka412oc4js7t.apps.googleusercontent.com";
+      let API_KEY = "AIzaSyBhIkosmiCbgex4jVYTGz9VUjY1AfQa23M";
+
       // Array of API discovery doc URLs for APIs used by the quickstart
       let DISCOVERY_DOCS = [
         "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
@@ -90,35 +112,23 @@
        *  Called when the signed in status changes, to update the UI
        *  appropriately. After a sign-in, the API is called.
        */
-      function updateSigninStatus(isSignedIn) {
+      async function updateSigninStatus(isSignedIn) {
         if (isSignedIn) {
           authorizeButton.style.display = "none";
           signoutButton.style.display = "block";
-          //listLabels();
-          //listMessages("me");
-          getListOfMessages("me").then(prepareTableData);
+          let response = await getListOfMessages("me");
+          await getAddMessageContent(response.result.messages);
+          prepareHomePage();
         } else {
           authorizeButton.style.display = "block";
           signoutButton.style.display = "none";
         }
       }
-
-      /**
-       * list all Labels in the authorized user's inbox. If no labels
-       * are found an appropriate message is printed.
-       */
-      function listLabels() {
-        gapi.client.gmail.users.labels
-          .list({
-            userId: "me"
-          })
-          .then(printLabels);
-      }
-
       /**
        *  Sign in the user upon button click.
        */
       function handleAuthClick(event) {
+        alert("Lütfen Gmail hesabınızla giriş yapınız");
         gapi.auth2.getAuthInstance().signIn();
       }
 
@@ -127,6 +137,7 @@
        */
       function handleSignoutClick(event) {
         gapi.auth2.getAuthInstance().signOut();
+        content.innerHTML = "";
       }
 
       /**
@@ -149,27 +160,8 @@
         pre.appendChild(div);
       }
 
-      /**
-       * Print all Labels in the authorized user's inbox. If no labels
-       * are found an appropriate message is printed.
-       */
-      function printLabels(response) {
-        let labels = response.result.labels;
-        appendPre("Labels:");
-
-        if (labels && labels.length > 0) {
-          for (i = 0; i < labels.length; i++) {
-            let label = labels[i];
-            appendPre(label.name);
-          }
-        } else {
-          appendPre("No Labels found.");
-        }
-      }
-
       function printEmails(response) {
         let messages = response.result.messages;
-        console.log("print emails messages lenght: " + messages.length);
         appendPre("Emails:");
         getAddMessageContent(messages, prepareAndPrintEmail);
       }
@@ -181,36 +173,36 @@
 
       function prepareEmailTable() {
         let tableHTML = "<table>";
-        sender_subject.forEach((message_id, message_info) => {
+        sender_subject.forEach((message_info, message_id) => {
           tableHTML += `<tr>
-                          <td>${message_info.sender}</td>
-                          <td>${message_info.subject}</td>
+                          <th><a href='#''>${message_info.sender}</a></th>
+                          <td><a href='#'>${message_info.subject}</a></td>
                         </tr>`;
         });
+
         tableHTML += "</table>";
         return tableHTML;
       }
 
-      function prepareTableData(response) {
+      async function prepareTableData(response) {
         let messages = response.result.messages;
-        getAddMessageContent(messages, prepareHomePage);
+        let executor = await getAddMessageContent(messages);
+        executor.execute(prepareHomePage);
       }
 
-      function getAddMessageContent(messages, callback) {
+      async function getAddMessageContent(messages) {
         let request;
         if (messages && messages.length > 0) {
           for (message_index in messages) {
             let messageId = messages[message_index].id;
             request = gapi.client.gmail.users.messages.get({
               userId: "me",
-              id: messageId /*,
-              format: "full"*/
-            })
-            request.execute(addMessageInfo)
+              id: messageId
+            });
+            request.execute(addMessageInfo);
           }
         }
-        //request.execute(callback)
-        //BU FONKSİYON BİTTİKTEN SONRA PREPARE HOME PAGE YAPMALI
+        return request;
       }
 
       function addMessageInfo(message) {
@@ -218,10 +210,6 @@
         let from = findHeader(headers, "From");
         let subject = findHeader(headers, "Subject");
         sender_subject.set(message.id, { sender: from, subject: subject });
-        console.log("From: " + from + "\n" + "Subject: " + subject);
-        //başarılı bir şekilde çalışıyor
-        //From: "IDARI ve MALI ISLER D.BSK." <fsmvuimdb@stu.fsm.edu.tr>
-        //Subject: Haliç Yerleşkesi Araç Giriş Çıkışları Hakkında
       }
 
       function findHeader(headers, name) {
@@ -236,7 +224,6 @@
           if (part.parts) {
             parts = parts.concat(part.parts);
           }
-          //console.log(part);
           if (part.mimeType === "text/html") {
             printEmail(part);
           }
@@ -257,45 +244,10 @@
       function getListOfMessages(userId) {
         return gapi.client.gmail.users.messages.list({
           userId: userId,
-          maxResults: 3
+          maxResults: 5
         });
       }
-
-      // function listMessages(userId, query, callback) {
-      //   i = 0;
-      //   result = [];
-      //   let getPageOfMessages = (request, result) => {
-      //     if (request.execute) {
-      //       request.execute(function(resp) {
-      //         result = result.concat(resp.messages);
-      //         let nextPageToken = resp.result.nextPageToken;
-      //         if (nextPageToken) {
-      //           request = gapi.client.gmail.users.messages
-      //             .list({
-      //               userId: userId,
-      //               pageToken: nextPageToken,
-      //               maxResults: 3,
-      //               q: query
-      //             })
-      //             //.then(printEmails);
-      //             //.then(prepareTableData);
-      //           console.log("i: " + ++i);
-      //           getPageOfMessages(request, result);
-      //         } else {
-      //           console.log("in else request complete")
-      //         }
-      //       });
-      //     }
-      //     console.log("RESULT: " + result);
-      //   };
-      //   let initialRequest = gapi.client.gmail.users.messages.list({
-      //     userId: userId,
-      //     q: query
-      //   });
-      //   getPageOfMessages(initialRequest, result);
-      // }
     </script>
-
     <script
       async
       defer
