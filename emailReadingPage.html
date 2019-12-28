@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email</title>
+  </head>
+  <body>
+    <pre id="content"></pre>
+    <script>
+      let message = sessionStorage.getItem("0");  
+      printEmail(message);
+      //sessionStorage.clear(); 
+
+      function printEmail(part) {
+        let decodedPart = decode(part);
+        appendDiv(decodedPart);
+      }
+
+      function appendDiv(content) {
+        let pre = document.getElementById("content");
+        let div = document.createElement("div");
+        div.innerHTML = content;
+        pre.appendChild(div);
+      }
+    </script>
+  </body>
+</html>

@@ -29,7 +29,11 @@
           <td>
             <div id="button_div">
               <ul>
-                <li><span onclick="sendScreen.style.display='none'" class="close">x</span></li>
+                <li>
+                  <span onclick="sendScreen.style.display='none'" class="close"
+                    >x</span
+                  >
+                </li>
               </ul>
             </div>
           </td>
@@ -54,11 +58,11 @@
       "use-strict";
 
       let sender_subject = new Map();
-
       // Client ID and API key from the Developer Console
-      let CLIENT_ID =
-        "547985227402-2r4oviu2u56cqer4r7qvka412oc4js7t.apps.googleusercontent.com";
-      let API_KEY = "AIzaSyBhIkosmiCbgex4jVYTGz9VUjY1AfQa23M";
+      let CLIENT_ID;
+      let API_KEY;
+
+      checkCredentials();
 
       // Array of API discovery doc URLs for APIs used by the quickstart
       let DISCOVERY_DOCS = [
@@ -92,6 +96,32 @@
             scope: SCOPES
           })
           .then(onClientInit);
+      }
+
+      function checkCredentials() {
+        API_KEY = localStorage.getItem("API_KEY");
+        CLIENT_ID = localStorage.getItem("CLIENT_ID");
+
+        if (API_KEY == null || CLIENT_ID == null) {
+          console.log("Credentials null or empty");
+          let status = setCredentials();
+          if(status < 0) {
+            alert("API KEY/CLIENT_ID HATALI");
+            return;
+          }
+        }
+        console.log("Credentials set");
+      }
+
+      function setCredentials() {
+        API_KEY = prompt("Lütfen API_KEY Giriniz");
+        CLIENT_ID = prompt("CLIENT_ID Giriniz");
+        if (API_KEY == null || CLIENT_ID == null) {
+          alert("Eksik Bilgi!");
+          return -1;
+        }
+        localStorage.setItem("API_KEY", API_KEY);
+        localStorage.setItem("CLIENT_ID", CLIENT_ID);
       }
 
       function onClientInitError(error) {
@@ -149,8 +179,6 @@
       function appendPre(message) {
         let pre = document.getElementById("content");
         pre.innerHTML = message;
-        //let textContent = document.createTextNode(message + "\n");
-        //pre.appendChild(textContent);
       }
 
       function appendDiv(content) {
@@ -162,7 +190,6 @@
 
       function printEmails(response) {
         let messages = response.result.messages;
-        appendPre("Emails:");
         getAddMessageContent(messages, prepareAndPrintEmail);
       }
 
@@ -176,12 +203,28 @@
         sender_subject.forEach((message_info, message_id) => {
           tableHTML += `<tr>
                           <th><a href='#' onclick="openSendScreen('${message_info.sender}')">${message_info.sender}</a></th>
-                          <td><a href='#'>${message_info.subject}</a></td>
+                          <td><a href='#' onclick="readEmail('${message_id}')">${message_info.subject}</a></td>
                         </tr>`;
         });
 
         tableHTML += "</table>";
         return tableHTML;
+      }
+
+      async function readEmail(message_id = "") {
+        if (message_id == "") {
+          alert("HATA: eposta bulunamadı");
+          return;
+        }
+        let response = await getMessageById(message_id);
+        response.execute(prepareAndSaveEmail(response.result));
+        location.href = "emailReadingPage.html";
+      }
+
+      async function getMessageById(id) {
+        let response = await saveSingleMessage(id);
+        //console.log(response.result);
+        return response;
       }
 
       function openSendScreen(receiver = "") {
@@ -193,13 +236,21 @@
         let splitted = receiver.split(" ");
         let email = splitted[splitted.length - 1];
         let regex = "<(.*?)>";
-        return email.split(regex)[0].slice(1,-1);
+        return email.split(regex)[0].slice(1, -1);
       }
 
       async function prepareTableData(response) {
         let messages = response.result.messages;
         let executor = await getAddMessageContent(messages);
         executor.execute(prepareHomePage);
+      }
+
+      async function saveSingleMessage(id) {
+        let response = gapi.client.gmail.users.messages.get({
+          userId: "me",
+          id: id
+        });
+        return response;
       }
 
       async function getAddMessageContent(messages) {
@@ -229,17 +280,25 @@
         return element ? element.value : "Bilinmeyen";
       }
 
-      function prepareAndPrintEmail(response) {
+      function prepareAndSaveEmail(response) {
         let parts = [response.payload];
+        let messageCount = 0;
         while (parts.length) {
-          let part = parts.shift();
-          if (part.parts) {
-            parts = parts.concat(part.parts);
-          }
+          let part = parts[0];
+          //let part = parts.shift();
+          // if (part.parts) {
+          //   parts = parts.concat(part.parts);
+          // }
           if (part.mimeType === "text/html") {
-            printEmail(part);
+            //printEmail(part);
+            saveMessage(messageCount, part);
           }
         }
+      }
+
+      function saveMessage(messageCount, part) {
+        let decodedPart = decode(part);
+        sessionStorage.setItem(messageCount.toString(), decodedPart);
       }
 
       function printEmail(part) {
