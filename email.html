@@ -105,7 +105,7 @@
         if (API_KEY == null || CLIENT_ID == null) {
           console.log("Credentials null or empty");
           let status = setCredentials();
-          if(status < 0) {
+          if (status < 0) {
             alert("API KEY/CLIENT_ID HATALI");
             return;
           }
@@ -216,15 +216,37 @@
           alert("HATA: eposta bulunamadı");
           return;
         }
-        let response = await getMessageById(message_id);
-        response.execute(prepareAndSaveEmail(response.result));
+        let response = await saveSingleMessage(message_id);
         location.href = "emailReadingPage.html";
+        //prepareAndSaveEmail(response);
+        //console.log(response.result);
+        //response.then(r=> prepareAndSaveEmail(r)).then(() => location.href = "emailReadingPage.html");
       }
 
-      async function getMessageById(id) {
-        let response = await saveSingleMessage(id);
-        //console.log(response.result);
+      async function saveSingleMessage(id) {
+        let response = gapi.client.gmail.users.messages.get({
+          userId: "me",
+          id: id
+        });
+        response.execute(prepareAndSaveEmail);
         return response;
+      }
+
+      function prepareAndSaveEmail(response) {
+        let parts = [response.result.payload];
+        let messageCount = 0;
+        console.log("parts len: " + parts.length);
+        while (parts.length) {
+          let part = parts.shift();
+          console.log(part);
+          if (part.parts) {
+            parts = parts.concat(part.parts);
+          }
+          if (part.mimeType === "text/html") {
+            //printEmail(part);
+            saveMessage(messageCount, part);
+          }
+        }
       }
 
       function openSendScreen(receiver = "") {
@@ -243,14 +265,6 @@
         let messages = response.result.messages;
         let executor = await getAddMessageContent(messages);
         executor.execute(prepareHomePage);
-      }
-
-      async function saveSingleMessage(id) {
-        let response = gapi.client.gmail.users.messages.get({
-          userId: "me",
-          id: id
-        });
-        return response;
       }
 
       async function getAddMessageContent(messages) {
@@ -280,25 +294,10 @@
         return element ? element.value : "Bilinmeyen";
       }
 
-      function prepareAndSaveEmail(response) {
-        let parts = [response.payload];
-        let messageCount = 0;
-        while (parts.length) {
-          let part = parts[0];
-          //let part = parts.shift();
-          // if (part.parts) {
-          //   parts = parts.concat(part.parts);
-          // }
-          if (part.mimeType === "text/html") {
-            //printEmail(part);
-            saveMessage(messageCount, part);
-          }
-        }
-      }
-
       function saveMessage(messageCount, part) {
         let decodedPart = decode(part);
         sessionStorage.setItem(messageCount.toString(), decodedPart);
+        console.log("item saved");
       }
 
       function printEmail(part) {

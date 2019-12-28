@@ -6,16 +6,23 @@
     <title>Email</title>
   </head>
   <body>
-    <pre id="content"></pre>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
     <script>
       let message = sessionStorage.getItem("0");  
+      console.log("message: " + message);
       printEmail(message);
       //sessionStorage.clear(); 
 
       function printEmail(part) {
-        let decodedPart = decode(part);
-        appendDiv(decodedPart);
+        //let decodedPart = decode(part);
+        appendDiv(part);
       }
+
+      // function decode(part) {
+      //   return decodeURIComponent(
+      //     escape(atob(part.body.data.replace(/\-/g, "+").replace(/\_/g, "/")))
+      //   );
+      // }
 
       function appendDiv(content) {
         let pre = document.getElementById("content");
