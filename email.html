@@ -103,7 +103,6 @@
         CLIENT_ID = localStorage.getItem("CLIENT_ID");
 
         if (API_KEY == null || CLIENT_ID == null) {
-          console.log("Credentials null or empty");
           let status = setCredentials();
           if (status < 0) {
             alert("API KEY/CLIENT_ID HATALI");
@@ -218,9 +217,6 @@
         }
         let response = await saveSingleMessage(message_id);
         location.href = "emailReadingPage.html";
-        //prepareAndSaveEmail(response);
-        //console.log(response.result);
-        //response.then(r=> prepareAndSaveEmail(r)).then(() => location.href = "emailReadingPage.html");
       }
 
       async function saveSingleMessage(id) {
@@ -235,10 +231,8 @@
       function prepareAndSaveEmail(response) {
         let parts = [response.result.payload];
         let messageCount = 0;
-        console.log("parts len: " + parts.length);
         while (parts.length) {
           let part = parts.shift();
-          console.log(part);
           if (part.parts) {
             parts = parts.concat(part.parts);
           }
@@ -297,7 +291,6 @@
       function saveMessage(messageCount, part) {
         let decodedPart = decode(part);
         sessionStorage.setItem(messageCount.toString(), decodedPart);
-        console.log("item saved");
       }
 
       function printEmail(part) {
