@@ -377,7 +377,7 @@
       function getListOfMessages(userId) {
         return gapi.client.gmail.users.messages.list({
           userId: userId,
-          maxResults: 5
+          maxResults: 10
         });
       }
     </script>
