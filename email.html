@@ -22,20 +22,6 @@
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
-    <div id="credentialsDiv" style="display: none;">
-      <p>
-        <label for="APIKEY">API KEY</label>
-        <input id="APIKEY" type="text" />
-      </p>
-      <p>
-        <label for="CLIENTID">CLIENT ID</label>
-        <input id="CLIENTID" type="text" />
-      </p>
-      <button onclick="saveCredentials(APIKEY.value, CLIENTID.value)">
-        KAYDET
-      </button>
-    </div>
-
     <div id="sendScreen" style="display: none;">
       <table>
         <tr>
@@ -76,6 +62,8 @@
       let CLIENT_ID;
       let API_KEY;
 
+      checkCredentials();
+
       // Array of API discovery doc URLs for APIs used by the quickstart
       let DISCOVERY_DOCS = [
         "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
@@ -92,12 +80,7 @@
        *  On load, called to load the auth2 library and API client library.
        */
       function handleClientLoad() {
-        window.addEventListener("onSuccess", () => {
-          gapi.load("client:auth2", initClient);
-          credentialsDiv.style.display = "none";
-        });
-        checkCredentials();
-        //gapi.load("client:auth2", initClient);
+        gapi.load("client:auth2", initClient);
       }
 
       /**
@@ -115,38 +98,29 @@
           .then(onClientInit);
       }
 
-      function askAPIKey() {
-        API_KEY = prompt("API KEY Giriniz");
-      }
-
-      function askClientID() {
-        CLIENT_ID = prompt("CLIENT_ID Giriniz");
-      }
-
-      function saveCredentials(API_KEY, CLIENT_ID) {
-        if (API_KEY == "" || CLIENT_ID == "") {
-          alert("Lütfen tüm alanları doldurunuz");
-          return -1;
-        }
-
-        localStorage.setItem("API_KEY", API_KEY);
-        localStorage.setItem("CLIENT_ID", CLIENT_ID);
-
-        console.log("Credentials set");
-        console.log(`API_KEY: ${API_KEY}\nCLIENT_ID: ${CLIENT_ID}\n`);
-        window.dispatchEvent(new CustomEvent("onSuccess"));
-        return 0;
-      }
-
       function checkCredentials() {
         API_KEY = localStorage.getItem("API_KEY");
         CLIENT_ID = localStorage.getItem("CLIENT_ID");
 
         if (API_KEY == null || CLIENT_ID == null) {
-          credentialsDiv.style.display = "block";
-        } else {
-          window.dispatchEvent(new CustomEvent("onSuccess"));
+          let status = setCredentials();
+          if (status < 0) {
+            alert("API KEY/CLIENT_ID HATALI");
+            return;
+          }
         }
+        console.log("Credentials set");
+      }
+
+      function setCredentials() {
+        API_KEY = prompt("Lütfen API_KEY Giriniz");
+        CLIENT_ID = prompt("CLIENT_ID Giriniz");
+        if (API_KEY == null || CLIENT_ID == null) {
+          alert("Eksik Bilgi!");
+          return -1;
+        }
+        localStorage.setItem("API_KEY", API_KEY);
+        localStorage.setItem("CLIENT_ID", CLIENT_ID);
       }
 
       function onClientInitError(error) {
