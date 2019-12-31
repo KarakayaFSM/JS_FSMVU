@@ -41,6 +41,8 @@
       </button>
     </div>
 
+    <div id="snackbar" class="myButton" style="max-width: 550px; display: none;">EPostanız Gönderildi</div>
+
     <div id="sendScreen" style="display: none;">
       <table>
         <tr>
@@ -228,6 +230,11 @@
       }
 
       function sendMessage(headers_obj, message, callback) {
+
+        snackbar.style.display = "block";
+
+        setTimeout(() => {snackbar.style.display = "none";}, 3000);
+
         var email = "";
 
         for (var header in headers_obj)
