@@ -15,9 +15,14 @@
 
     <h5>
       Template of Project Code:
-      <a href="https://developers.google.com/gmail/api/quickstart/js"
-        >Gmail API QuickStart</a
-      >
+      <a href="https://developers.google.com/gmail/api/quickstart/js">
+        Gmail API QuickStart</a>
+    </h5>
+
+    <h5>
+      Send Base64 MIME Message:
+      <a href="https://www.sitepoint.com/sending-emails-gmail-javascript-api/">
+        SendMail</a>
     </h5>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
@@ -58,13 +63,26 @@
           </td>
         </tr>
         <tr>
-          <td><textarea rows="1" placeholder="Konu"></textarea></td>
+          <td><textarea id="konu" rows="1" placeholder="Konu"></textarea></td>
         </tr>
         <tr>
           <td><textarea id="mailbox" cols="30" rows="10"></textarea></td>
         </tr>
         <tr>
-          <td><button class="myButton">Gönder</button></td>
+          <td>
+            <button
+              class="myButton"
+              onclick="sendMessage(
+            {
+              'To':alici_adres.value,
+              'Subject':konu.value
+            },
+            mailbox.value
+          )"
+            >
+              Gönder
+            </button>
+          </td>
         </tr>
       </table>
     </div>
@@ -83,7 +101,9 @@
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      let SCOPES = "https://www.googleapis.com/auth/gmail.readonly";
+      let SCOPES =
+        "https://www.googleapis.com/auth/gmail.readonly" +
+        " https://www.googleapis.com/auth/gmail.send";
 
       let authorizeButton = document.getElementById("authorize_button");
       let signoutButton = document.getElementById("signout_button");
@@ -113,14 +133,6 @@
             scope: SCOPES
           })
           .then(onClientInit);
-      }
-
-      function askAPIKey() {
-        API_KEY = prompt("API KEY Giriniz");
-      }
-
-      function askClientID() {
-        CLIENT_ID = prompt("CLIENT_ID Giriniz");
       }
 
       function saveCredentials(APIKEY, CLIENTID) {
@@ -213,6 +225,27 @@
         let div = document.createElement("div");
         div.innerHTML = content;
         pre.appendChild(div);
+      }
+
+      function sendMessage(headers_obj, message, callback) {
+        var email = "";
+
+        for (var header in headers_obj)
+          email += header += ": " + headers_obj[header] + "\r\n";
+
+        email += "\r\n" + message;
+
+        var sendRequest = gapi.client.gmail.users.messages.send({
+          userId: "me",
+          resource: {
+            raw: window
+              .btoa(email)
+              .replace(/\+/g, "-")
+              .replace(/\//g, "_")
+          }
+        });
+
+        return sendRequest.execute(callback);
       }
 
       function printEmails(response) {
