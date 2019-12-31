@@ -1,28 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
+    <title>FSMail</title>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email</title>
   </head>
+  <link rel="stylesheet" href="styles.css" />
   <body>
-    <pre id="content" style="white-space: pre-wrap;"></pre>
-    <script>
-      let message = sessionStorage.getItem("0");  
-      console.log("message: " + message);
-      printEmail(message);
-      //sessionStorage.clear(); 
+    <p>FSMail</p>
 
-      function printEmail(part) {
-        //let decodedPart = decode(part);
-        appendDiv(part);
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button" style="display: none;">Authorize</button>
+    <button id="signout_button" style="display: none;">Sign Out</button>
+
+    <h5>
+      Template of Project Code:
+      <a href="https://developers.google.com/gmail/api/quickstart/js"
+        >Gmail API QuickStart</a
+      >
+    </h5>
+
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+
+    <div id="credentialsDiv" style="display: none;">
+      <p>
+        <label for="APIKEY">API KEY</label>
+        <input id="APIKEY" type="text" />
+      </p>
+      <p>
+        <label for="CLIENTID">CLIENT ID</label>
+        <input id="CLIENTID" type="text" />
+      </p>
+      <button onclick="saveCredentials(APIKEY.value, CLIENTID.value)">
+        KAYDET
+      </button>
+    </div>
+
+    <div id="sendScreen" style="display: none;">
+      <table>
+        <tr>
+          <th>Yeni Mesaj</th>
+          <td>
+            <div id="button_div">
+              <ul>
+                <li>
+                  <span onclick="sendScreen.style.display='none'" class="close"
+                    >x</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <textarea id="alici_adres" rows="1" placeholder="Alıcı"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td><textarea rows="1" placeholder="Konu"></textarea></td>
+        </tr>
+        <tr>
+          <td><textarea id="mailbox" cols="30" rows="10"></textarea></td>
+        </tr>
+        <tr>
+          <td><button class="myButton">Gönder</button></td>
+        </tr>
+      </table>
+    </div>
+    <script>
+      "use-strict";
+
+      let sender_subject = new Map();
+      // Client ID and API key from the Developer Console
+      let CLIENT_ID;
+      let API_KEY;
+
+      // Array of API discovery doc URLs for APIs used by the quickstart
+      let DISCOVERY_DOCS = [
+        "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
+      ];
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      let SCOPES = "https://www.googleapis.com/auth/gmail.readonly";
+
+      let authorizeButton = document.getElementById("authorize_button");
+      let signoutButton = document.getElementById("signout_button");
+
+      /**
+       *  On load, called to load the auth2 library and API client library.
+       */
+      function handleClientLoad() {
+        window.addEventListener("onSuccess", () => {
+          gapi.load("client:auth2", initClient);
+          credentialsDiv.style.display = "none";
+        });
+        checkCredentials();
+        //gapi.load("client:auth2", initClient);
       }
 
-      // function decode(part) {
-      //   return decodeURIComponent(
-      //     escape(atob(part.body.data.replace(/\-/g, "+").replace(/\_/g, "/")))
-      //   );
-      // }
+      /**
+       *  Initializes the API client library and sets up sign-in state
+       *  listeners.
+       */
+      function initClient() {
+        gapi.client
+          .init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            discoveryDocs: DISCOVERY_DOCS,
+            scope: SCOPES
+          })
+          .then(onClientInit);
+      }
+
+      function askAPIKey() {
+        API_KEY = prompt("API KEY Giriniz");
+      }
+
+      function askClientID() {
+        CLIENT_ID = prompt("CLIENT_ID Giriniz");
+      }
+
+      function saveCredentials(APIKEY, CLIENTID) {
+        if (APIKEY == "" || CLIENTID == "") {
+          alert("Lütfen tüm alanları doldurunuz");
+          return -1;
+        }
+
+        localStorage.setItem("API_KEY", APIKEY);
+        localStorage.setItem("CLIENT_ID", CLIENTID);
+        API_KEY = APIKEY;
+        CLIENT_ID = CLIENTID;
+
+        console.log("Credentials set");
+        console.log(`API_KEY: ${API_KEY}\nCLIENT_ID: ${CLIENT_ID}\n`);
+        window.dispatchEvent(new CustomEvent("onSuccess"));
+        return 0;
+      }
+
+      function checkCredentials() {
+        API_KEY = localStorage.getItem("API_KEY");
+        CLIENT_ID = localStorage.getItem("CLIENT_ID");
+
+        if (API_KEY == null || CLIENT_ID == null) {
+          credentialsDiv.style.display = "block";
+        } else {
+          window.dispatchEvent(new CustomEvent("onSuccess"));
+        }
+      }
+
+      function onClientInitError(error) {
+        appendPre(JSON.stringify(error, null, 2));
+      }
+
+      function onClientInit() {
+        // Listen for sign-in state changes.
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+        // Handle the initial sign-in state.
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
+      }
+
+      /**
+       *  Called when the signed in status changes, to update the UI
+       *  appropriately. After a sign-in, the API is called.
+       */
+      async function updateSigninStatus(isSignedIn) {
+        if (isSignedIn) {
+          authorizeButton.style.display = "none";
+          signoutButton.style.display = "block";
+          let response = await getListOfMessages("me");
+          await getAddMessageContent(response.result.messages);
+          prepareHomePage();
+        } else {
+          authorizeButton.style.display = "block";
+          signoutButton.style.display = "none";
+        }
+      }
+      /**
+       *  Sign in the user upon button click.
+       */
+      function handleAuthClick(event) {
+        alert("Lütfen Gmail hesabınızla giriş yapınız");
+        gapi.auth2.getAuthInstance().signIn();
+      }
+
+      /**
+       *  Sign out the user upon button click.
+       */
+      function handleSignoutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+        content.innerHTML = "";
+      }
+
+      /**
+       * Append a pre element to the body containing the given message
+       * as its text node. Used to display the results of the API call.
+       *
+       * @param {string} message Text to be placed in pre element.
+       */
+      function appendPre(message) {
+        let pre = document.getElementById("content");
+        pre.innerHTML = message;
+      }
 
       function appendDiv(content) {
         let pre = document.getElementById("content");
@@ -30,6 +214,137 @@
         div.innerHTML = content;
         pre.appendChild(div);
       }
+
+      function printEmails(response) {
+        let messages = response.result.messages;
+        getAddMessageContent(messages, prepareAndPrintEmail);
+      }
+
+      function prepareHomePage() {
+        let table = prepareEmailTable();
+        appendDiv(table);
+      }
+
+      function prepareEmailTable() {
+        let tableHTML = "<table>";
+        sender_subject.forEach((message_info, message_id) => {
+          tableHTML += `<tr>
+                          <th><a href='#' onclick="openSendScreen('${message_info.sender}')">${message_info.sender}</a></th>
+                          <td><a href='#' onclick="readEmail('${message_id}')">${message_info.subject}</a></td>
+                        </tr>`;
+        });
+
+        tableHTML += "</table>";
+        return tableHTML;
+      }
+
+      async function readEmail(message_id = "") {
+        if (message_id == "") {
+          alert("HATA: eposta bulunamadı");
+          return;
+        }
+        let response = await saveSingleMessage(message_id);
+        location.href = "emailReadingPage.html";
+      }
+
+      async function saveSingleMessage(id) {
+        let response = gapi.client.gmail.users.messages.get({
+          userId: "me",
+          id: id
+        });
+        response.execute(prepareAndSaveEmail);
+        return response;
+      }
+
+      function prepareAndSaveEmail(response) {
+        let parts = [response.result.payload];
+        let messageCount = 0;
+        while (parts.length) {
+          let part = parts.shift();
+          if (part.parts) {
+            parts = parts.concat(part.parts);
+          }
+          if (part.mimeType === "text/html") {
+            //printEmail(part);
+            saveMessage(messageCount, part);
+          }
+        }
+      }
+
+      function openSendScreen(receiver = "") {
+        sendScreen.style.display = "block";
+        alici_adres.value = extractEmail(receiver);
+      }
+
+      function extractEmail(receiver) {
+        let splitted = receiver.split(" ");
+        let email = splitted[splitted.length - 1];
+        let regex = "<(.*?)>";
+        return email.split(regex)[0].slice(1, -1);
+      }
+
+      async function prepareTableData(response) {
+        let messages = response.result.messages;
+        let executor = await getAddMessageContent(messages);
+        executor.execute(prepareHomePage);
+      }
+
+      async function getAddMessageContent(messages) {
+        let request;
+        if (messages && messages.length > 0) {
+          for (message_index in messages) {
+            let messageId = messages[message_index].id;
+            request = gapi.client.gmail.users.messages.get({
+              userId: "me",
+              id: messageId
+            });
+            request.execute(addMessageInfo);
+          }
+        }
+        return request;
+      }
+
+      function addMessageInfo(message) {
+        let headers = message.payload.headers;
+        let from = findHeader(headers, "From");
+        let subject = findHeader(headers, "Subject");
+        sender_subject.set(message.id, { sender: from, subject: subject });
+      }
+
+      function findHeader(headers, name) {
+        let element = headers.find(header => header.name === name);
+        return element ? element.value : "Bilinmeyen";
+      }
+
+      function saveMessage(messageCount, part) {
+        let decodedPart = decode(part);
+        sessionStorage.setItem(messageCount.toString(), decodedPart);
+      }
+
+      function printEmail(part) {
+        let decodedPart = decode(part);
+        appendDiv(decodedPart);
+      }
+
+      function decode(part) {
+        return decodeURIComponent(
+          escape(atob(part.body.data.replace(/\-/g, "+").replace(/\_/g, "/")))
+        );
+      }
+
+      function getListOfMessages(userId) {
+        return gapi.client.gmail.users.messages.list({
+          userId: userId,
+          maxResults: 5
+        });
+      }
     </script>
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()"
+    ></script>
   </body>
 </html>
